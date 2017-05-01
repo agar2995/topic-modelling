@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <title>Twitter Handler </title>
+ 
+   <!-- import plugin script -->
+   <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css"/>
+   <script src='static/Chart.min.js'></script>
+   <script src='static/bootstrap.min.js'></script>
+ 
+</head>
+<body>
+ 
+<center><h1>Twitter Handler</h1></center>
+<br>
+<br>
+<!-- bar chart canvas element -->
+<div class="container">
+<form action = "/result" method = "POST">
+<div class="form-group row">
+
+         <div class="col-md-6"><input class="form-control" placeholder="Twitter username" type = "text" name = "Name" /></div>
+         
+         <div class="col-md-6"><input class="btn btn-primary col-md-6" type = "submit" value = "Submit" /></div>
+         </div>
+      </form>
+</div>
+{% if result %}
+<div class="container">
+ 
+<h3>{{ result.Name }} : User Records</h3>
+
+<table class="table table-striped">
+  <tr>
+  <th>Topic</th>
+  <th>Rating</th></tr>
+  {% for item, topics in values_topics %}
+  <tr>
+  <td>{{topics}}</td>
+  <td>{{item}}</td>
+  </tr>
+  {% endfor %}
+</table>
+<canvas id="chart" width="600" height="400"></canvas>
+</div>
+{% endif %} 
+<script>
+ 
+   // bar chart data
+   var barData = {
+   labels : [{% for item in labels %}
+                  "{{item}}",
+              {% endfor %}],
+   datasets : [
+      {
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            bezierCurve : false,
+            data : [{% for item in values %}
+                      {{item}},
+                    {% endfor %}]
+      }]
+   }
+ 
+    Chart.defaults.global.animationSteps = 50;
+    Chart.defaults.global.tooltipYPadding = 16;
+    Chart.defaults.global.tooltipCornerRadius = 0;
+    Chart.defaults.global.tooltipTitleFontStyle = "normal";
+    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+    Chart.defaults.global.animationEasing = "easeOutBounce";
+    Chart.defaults.global.responsive = false;
+    Chart.defaults.global.scaleLineColor = "black";
+    Chart.defaults.global.scaleFontSize = 16;
+ 
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+ 
+   steps = 10
+   max = 100
+   // draw bar chart
+   var LineChartDemo = new Chart(mychart).Line(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true,
+        bezierCurve: false,
+ 
+   });
+ 
+ 
+</script>
+ 
+</body>
+</html>
