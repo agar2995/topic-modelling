@@ -14,7 +14,7 @@ Platform: python 3.5
 
 Steps:
 --run datasetText.py with a filter query word to get the latest 200 tweets corresponding to that word.
---run modelTrain.py to create and save a model for the specific text file of tweets generated from the aboce script.
+--run modelTrain.py to create and save a model for the specific text file of tweets generated from the above script.
   This is the dataset and trained model
 --run modelTest.py. This would start a local server to run flask that connects the script to the front end. Go to localhost:5001 in your web browser and enter the twitter handle of the user you wish to classify tweets of.
 --this would generate a graphical and tabular representation of the user's tweets classification into various topics.
